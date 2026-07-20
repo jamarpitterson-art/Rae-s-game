@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Do You Love Me?</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      text-align: center;
+      background: linear-gradient(to bottom right, #ff9a9e, #fad0c4);
+      overflow: hidden;
+      height: 100vh;
+      margin: 0;
+    }
+    h1 {
+      color: #fff;
+      margin-top: 50px;
+      text-shadow: 2px 2px #ff6f91;
+    }
+    #container {
+      position: relative;
+      width: 600px;
+      height: 400px;
+      margin: 50px auto;
+      border: 3px dashed #fff;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.2);
+    }
+    button {
+      position: absolute;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 25px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    #yesBtn {
+      background-color: #ff6f91;
+      color: white;
+      left: 100px;
+      top: 150px;
+    }
+    #noBtn {
+      background-color: #6f86ff;
+      color: white;
+      left: 300px;
+      top: 150px;
+    }
+    #musicBtn {
+      position: relative;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #fff;
+      color: #ff6f91;
+      border-radius: 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .heart {
+      position: absolute;
+      color: #ff6f91;
+      font-size: 24px;
+      animation: float 6s infinite;
+    }
+    @keyframes float {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-600px); opacity: 0; }
+    }
+    /* Message at the end */
+    #loveMessage {
+      margin-top: 40px;
+      font-size: 20px;
+      color: #fff;
+      text-shadow: 1px 1px #ff6f91;
+    }
+    /* Peony flowers (bit art style) */
+    .peony {
+      position: absolute;
+      font-size: 40px;
+      animation: bloom 3s ease-in-out forwards;
+    }
+    @keyframes bloom {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Do you love me? 💕</h1>
+  <div id="container">
+    <button id="yesBtn">Yes 💖</button>
+    <button id="noBtn">No 💔</button>
+  </div>
+
+  <!-- Play/Pause Music Button -->
+  <button id="musicBtn">Pause Music 🎵</button>
+
+  <!-- Hidden Audio Player -->
+  <audio id="bgMusic" autoplay loop>
+    <source src="music/talking-to-the-moon.mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Romantic message -->
+  <div id="loveMessage">
+    To the most whimsical and loving girlfriend, you are my world.<br>
+    P.S. there is an easter egg 🌸
+  </div>
+
+  <script>
+    const noBtn = document.getElementById("noBtn");
+    const container = document.getElementById("container");
+    const musicBtn = document.getElementById("musicBtn");
+    const bgMusic = document.getElementById("bgMusic");
+
+    noBtn.addEventListener("mouseover", () => {
+      const maxX = container.clientWidth - noBtn.offsetWidth;
+      const maxY = container.clientHeight - noBtn.offsetHeight;
+      const newX = Math.floor(Math.random() * maxX);
+      const newY = Math.floor(Math.random() * maxY);
+      noBtn.style.left = newX + "px";
+      noBtn.style.top = newY + "px";
+    });
+
+    document.getElementById("yesBtn").addEventListener("click", () => {
+      alert("I knew it! ❤️ Forever yours!");
+    });
+
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerHTML = "❤";
+      heart.style.left = Math.random() * window.innerWidth + "px";
+      heart.style.top = window.innerHeight + "px";
+      document.body.appendChild(heart);
+      setTimeout(() => { heart.remove(); }, 6000);
+    }
+    setInterval(createHeart, 800);
+
+    // Play/Pause toggle
+    musicBtn.addEventListener("click", () => {
+      if (bgMusic.paused) {
+        bgMusic.play();
+        musicBtn.textContent = "Pause Music 🎵";
+      } else {
+        bgMusic.pause();
+        musicBtn.textContent = "Play Music 🎶";
+      }
+    });
+
+    // Easter egg: after 7 clicks anywhere, peonies appear
+    let clickCount = 0;
+    document
